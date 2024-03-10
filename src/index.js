@@ -6,14 +6,16 @@ dotenv.config();
 
 const app = express();
 const dealsFinder = require("./dealsFinder");
-const { readFromJson } = require("./utils");
+const { readFromJson, convertToHtml } = require("./utils");
 
 app.get("/", async (_req, res) => {
   try {
     const results = await readFromJson("already_seen_dealz.json");
-    res.send(results);
+    res.send(convertToHtml(results));
   } catch (error) {
-    res.status(500).send({ error: "An error occurred while scraping" });
+    res
+      .status(500)
+      .send({ error: "An error occurred while getting the latest" });
   }
 });
 

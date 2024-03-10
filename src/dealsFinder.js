@@ -5,12 +5,8 @@ const email = require("./email");
 const FIVE_HOURS = 24 * 60;
 
 async function find() {
-  let lastCheckedTime = await readFromJson("last_checked_datetime.json")
-    .lastCheckedTime;
-
+  let lastCheckedTime = await readFromJson("last_checked_datetime.json");
   let alreadySeenDealz = await readFromJson("already_seen_dealz.json");
-
-  console.log("alreadySeenDealz: ", alreadySeenDealz);
 
   if (lastCheckedTime) {
     lastCheckedTime = new Date(lastCheckedTime.lastCheckedTime);
@@ -31,7 +27,6 @@ async function find() {
         (deal) => deal.date > lastCheckedTime.toISOString()
       );
 
-      console.log("filteredDealz: ", filteredDealz);
       // Filter seen dealz
       const newDealz = filteredDealz.filter((deal) => {
         return (
@@ -45,9 +40,9 @@ async function find() {
       writeToJson("already_seen_dealz.json", {
         alreadySeenDealz: data,
       });
-      email.send(alreadySeenDealz);
       // Log & Send new dealz
       if (newDealz.length > 0) {
+        email.send(newDealz);
         console.log("newDealz", newDealz);
       } else {
         console.log("No new dealz");
