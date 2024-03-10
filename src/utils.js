@@ -1,7 +1,7 @@
 const fs = require("fs"); // Add this line
 
 async function randomDelay() {
-  let randomWait = Math.random() * 10000;
+  let randomWait = Math.random() * 30000;
   console.log("waiting for " + randomWait + "ms");
   return new Promise((resolve) => setTimeout(resolve, randomWait));
 }
@@ -19,6 +19,19 @@ async function readFromJson(file) {
   }
 }
 
+function convertToHtml(data) {
+  let html = "<ul>";
+  data.alreadySeenDealz.forEach((item) => {
+    html += `<li>
+      <h2>${item.date}</h2>
+      <p>${item.body.replace(/\n/g, "<br>")}</p>
+    </li>`;
+  });
+  html += "</ul>";
+  return html;
+}
+
+module.exports.convertToHtml = convertToHtml;
 module.exports.randomDelay = randomDelay;
 module.exports.writeToJson = writeToJson;
 module.exports.readFromJson = readFromJson;

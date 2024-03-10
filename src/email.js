@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const { convertToHtml } = require("./utils");
 
 dotenv.config();
 
@@ -9,7 +10,11 @@ function send(data) {
     {
       from: process.env.LOGINUSER,
       to: process.env.SENDTO,
-      subject: "Scraper has run found dealz!",
+      subject: `${date.getHours()}:${
+        date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()
+      } ${date.getDate()}-${
+        date.getMonth() + 1
+      }-${date.getFullYear()} - Scraper has run found dealz!"`,
       html: html,
     },
     function (error, info) {
@@ -32,19 +37,5 @@ const transporter = nodemailer.createTransport({
     pass: process.env.LOGINPASS,
   },
 });
-// user: process.env.LOGINUSER,
-// pass: process.env.LOGINPASS,
-
-function convertToHtml(data) {
-  let html = "<ul>";
-  data.alreadySeenDealz.forEach((item) => {
-    html += `<li>
-      <h2>${item.date}</h2>
-      <p>${item.body.replace(/\n/g, "<br>")}</p>
-    </li>`;
-  });
-  html += "</ul>";
-  return html;
-}
 
 module.exports.send = send;
