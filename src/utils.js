@@ -21,11 +21,11 @@ async function readFromJson(file) {
 
 function convertToHtml(data) {
   let html = "<ul>";
-  data.alreadySeenDealz.forEach((item) => {
-    html += `<li>
-      <h2>${item.date}</h2>
-      <p>${item.body.replace(/\n/g, "<br>")}</p>
-    </li>`;
+  data.forEach((item) => {
+    html += `<li><h2>${item.date}</h2><p>${item.body.replace(
+      /\n/g,
+      "<br>"
+    )}</p></li>`;
   });
   html += "</ul>";
   return html;

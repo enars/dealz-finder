@@ -20,10 +20,10 @@ app.get("/", async (_req, res) => {
   }
 });
 
-// app.listen(process.env.PORT, async function onListen() {
-//   console.log("runs!");
-//   dealsFinder.find();
-// });
+app.listen(process.env.PORT, async function onListen() {
+  console.log("runs!");
+  dealsFinder.find();
+});
 
 // cron.schedule("* * * * *", () => {
 //   console.log("running a task every minute");

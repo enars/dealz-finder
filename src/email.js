@@ -6,6 +6,7 @@ dotenv.config();
 
 function send(data) {
   const html = convertToHtml(data);
+  const date = new Date();
   transporter.sendMail(
     {
       from: process.env.LOGINUSER,
