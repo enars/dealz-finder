@@ -1,3 +1,4 @@
+const e = require("express");
 const puppeteer = require("puppeteer");
 
 async function runScraper() {
@@ -30,6 +31,10 @@ async function runScraper() {
           body: deal.querySelector(".bbParagraph").textContent,
         })
       );
+
+      if (array === undefined || array.length == 0) {
+        throw error("search came back undefined or empty");
+      }
 
       return dealzz;
     });
