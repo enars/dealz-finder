@@ -32,7 +32,7 @@ async function runScraper() {
         })
       );
 
-      if (array === undefined || array.length == 0) {
+      if (dealzz === undefined || dealzz.length == 0) {
         throw error("search came back undefined or empty");
       }
 
