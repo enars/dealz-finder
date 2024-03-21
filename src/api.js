@@ -36,8 +36,8 @@ app.listen(process.env.PORT, async function onListen() {
 // });
 // app.use(app, router);
 
-cron.schedule("0 0/20 7-22 * * *", () => {
-  console.log("running every 20 mins between 7am and 10pm");
+cron.schedule("*/10 5-23 * * *", () => {
+  console.log("running every 10 mins between 5am and 11pm");
   dealsFinder.find();
 });
 
