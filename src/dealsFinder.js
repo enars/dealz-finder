@@ -20,18 +20,22 @@ async function find() {
   try {
     const data = await scraper.runScraper();
 
+    if (!data || !Array.isArray(data)) {
+      console.error("Scraper returned unexpected value:", JSON.stringify(data));
+      return [];
+    }
+
     // Filter new dealz
     const filteredDealz = data.filter(
       (deal) => deal.date > lastCheckedTime.toISOString(),
     );
 
     // Filter seen dealz
+    const seenList = alreadySeenDealz?.alreadySeenDealz || [];
     const newDealz = filteredDealz.filter((deal) => {
       return (
         deal &&
-        !alreadySeenDealz.alreadySeenDealz.some(
-          (seenDeal) => seenDeal.body === deal.body,
-        )
+        !seenList.some((seenDeal) => seenDeal.body === deal.body)
       );
     });
 
@@ -39,17 +43,14 @@ async function find() {
       alreadySeenDealz: data,
     });
 
-    // Log new dealz
     if (newDealz.length > 0) {
       // email.send(newDealz);
-      console.log("newDealz", newDealz);
-    } else {
-      console.log("No new dealz");
+      console.log(`Found ${newDealz.length} new dealz`);
     }
 
     return newDealz;
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("dealsFinder failed:", error.message);
     return [];
   } finally {
     // Update files
