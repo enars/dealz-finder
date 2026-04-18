@@ -1,4 +1,3 @@
-const e = require("express");
 const puppeteer = require("puppeteer");
 
 async function runScraper() {
@@ -8,7 +7,7 @@ async function runScraper() {
     const page = await browser.newPage();
 
     await page.goto(
-      "https://www.sweclockers.com/forum/trad/999559-dagens-fynd-bara-tips-ingen-diskussion-las-forsta-inlagget-forst"
+      "https://www.sweclockers.com/forum/trad/999559-dagens-fynd-bara-tips-ingen-diskussion-las-forsta-inlagget-forst",
     );
 
     // Go to the latest dealzz
@@ -29,7 +28,7 @@ async function runScraper() {
         (deal) => ({
           date: deal.querySelector("time").getAttribute("datetime"),
           body: deal.querySelector(".bbParagraph").textContent,
-        })
+        }),
       );
 
       if (dealzz === undefined || dealzz.length == 0) {
